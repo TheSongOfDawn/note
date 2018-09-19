@@ -2,9 +2,10 @@
 
 # 开发及调试
 
-##编辑器：vim
+## 编辑器：vim
+![VIM/VI工作模式](https://github.com/TheSongOfDawn/note/blob/master/pic/vim-1.png)
 ### How to quit the Vim Editor?
-    ```
+```
 :q to quit (short for :quit)
 :q! to quit without saving (short for :quit!)
 :wq to write and quit
@@ -13,7 +14,12 @@
 :exit to write and exit (same as :x)
 :qa to quit all (short for :quitall)
 :cq to quit without saving and make Vim return non-zero error (i.e. exit with error)
-    ```
+```
+###其余常用的命令
+```
+:set nu	显示行号，设定之后，会在每一行的前缀显示该行的行号
+:set nonu	与 set nu 相反，为取消行号！
+```
 编译器：gcc/g++
 调试工具：gdb
 查看依赖库：ldd
