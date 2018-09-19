@@ -1,10 +1,50 @@
-![内容摘自][廖雪峰的git教程](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)
+内容摘自
+[廖雪峰的git教程](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)
 
+[TOC]
 # 安装git
  Linux 上安装:
     Debian或者Ubuntu : sudo apt-get install git
     Windows :从官网上 [下载安装程序](https://git-scm.com/downloads)
     
+安装完成后，还需要最后一步设置，在命令行输入:
+```
+git config --global user.name "your name"
+git config --global user.email "email@example.com"
+```
+注意git config命令的--global参数，用了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和Email地址。
+
+# 创建版本库(repository)
+什么是版本库:版本库又名仓库，英文名repository，你可以简单理解成一个目录，这个目录里面的所有文件都可以被Git管理起来，每个文件的修改、删除，Git都能跟踪，以便任何时刻都可以追踪历史，或者在将来某个时刻可以“还原”。
+1.新建一个目录
+2.通过git init 把这个目录变成git可以管理的仓库
+
+
+# 把文件添加到版本库
+1.用命令git add告诉Git，把文件添加到仓库
+2.用命令git commit告诉Git，把文件提交到仓库 -m 为提交说明
+
+#时光穿梭
+```
+要随时掌握工作区的状态，使用git status命令。
+
+如果git status告诉你有文件被修改过，用git diff可以查看修改内容。
+```
+# 版本回退
+```
+HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。
+
+穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。
+
+要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
+```
+
+# 重要概念:
+工作区:
+暂存区:
+
+
+
 [如何在本地环境配置github](https://segmentfault.com/a/1190000002533334)
 # git的基本命令
 ```
