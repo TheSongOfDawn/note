@@ -1,7 +1,7 @@
 > 内容摘自
 [廖雪峰的git教程](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)
 
- [ TOC ] 
+
 
 # 安装git
  Linux 上安装:
@@ -40,14 +40,14 @@ HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历�
 要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
 ```
 
-# 重要概念:
+# 重要概念
 工作区:电脑里能看到的目录。
 
 版本库:工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。
 
 暂存区:Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。
 
-[](https://github.com/TheSongOfDawn/note/blob/master/pic/git-1.jpg)
+[重要概念](https://github.com/TheSongOfDawn/note/blob/master/pic/git-1.jpg)
 
 [如何在本地环境配置github](https://segmentfault.com/a/1190000002533334)
 # git的基本命令
