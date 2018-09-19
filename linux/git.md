@@ -1,7 +1,8 @@
 内容摘自
 [廖雪峰的git教程](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)
 
-[TOC]
+[TOC] 
+
 # 安装git
  Linux 上安装:
     Debian或者Ubuntu : sudo apt-get install git
