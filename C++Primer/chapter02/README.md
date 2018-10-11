@@ -54,7 +54,7 @@
     d.3.14L long double
     
 # 2.8
-    cout<<"2\115\12";
+    cout<<"2\115\12"; // \115 -M \12 -\n
     cout<<"2\t\115\12";
     
 # 2.9 
@@ -63,7 +63,7 @@
     c.double s=w=999.99; //w 没有声明 
     d.int i=3.14;// a=3,但编译器不会报错
 
-#2.10
+# 2.10
     string global_str; //初始化为空串
     int g_int; // 0
     int main() {
@@ -75,7 +75,7 @@
         cout<<local_int<<endl; // 0
     }
 
-#2.11 
+# 2.11 
     a. extern int ix = 1024 ; // 定义
     b.int iy ; // 定义
     c.extern int iz ; //声明
@@ -84,10 +84,62 @@
      //变量能且只能定义一次，但可以多次声明
      // 声明使得名字为程序所知。定义负责创建与名字相关的实体.
      //如果你想声明一个变量而非定义它，就在变量名前面添加关键字 extern,而且不要显示的初始化变量
-2.12 标识符
+# 2.12 标识符
     C++ 保留关键字和操作符替代名不能用作用户自定义标识符. 用户
     a. int double = 3.14 . X
     b. int _ ;//编译通过 __两个下划线也通过 ___也能通过
     c.int c-22; // 不能有操作符
     d. int 1_or_2=1; // 不能以数字开头
     e.double Double=3.14;// OK
+
+# 2.13
+```
+#include <iostream>
+
+using namespace std;
+int i =42;
+int main() {
+	int i=100;//覆盖了全局变量
+	cout<<i<<endl;// 100
+	int j =i;
+	cout<<j<<endl;//100
+    cout<<::i<<endl; // 显示的访问全局变量
+	return 0;
+}
+```
+# 2.14
+```
+
+int main() {
+	int i =100,sum=0;
+	for(int i=0;i!=10;i++)
+	{
+		sum+=i;
+	}
+	cout<<i<<'\12'<<sum<<endl;// 输出 100\n45
+	return 0;
+}
+//可以运行 第二个i的作用域就只有{}内,
+```
+
+# 2.15
+```
+    a.int ival = 1.01; //合法
+    b.int&rval1=1.01;  // invalid initialization of non-const reference of type ‘int&’ from an rvalue of type ‘double’ 
+                       //引用类型的初始值必须是一个对象
+    c.int &rval2=ival; // bingo
+    d.int &rval3; //引用必须初始化
+```
+# 2.16
+    int i=0,&r1=i;
+    double d=0,&r2=d;
+    a.r2=3.14159; 合法
+    b.r2=r1; 合法
+    c.i=r2; 合法
+    d.	r1=d; 合法
+    
+# 2.17
+    int i,&ri=i;
+    i=5;ri=10;
+    cout<<i<<"\t"<<ri; // 10 10
+    
