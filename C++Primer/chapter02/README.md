@@ -19,7 +19,8 @@
     
 # 2.3
     32 
-    4294967264.两个数都是unsigned的，但相减结果为负数，带符号的数会自动的转化为无符号数。当前int所占位数为32位，用当前int最大值减去该绝对值就是所得的值.
+    4294967264.两个数都是unsigned的，但相减结果为负数，带符号的数会自动的转化为无符号数。
+    当前int所占位数为32位，用当前int最大值减去该绝对值就是所得的值.
     32
     -32
     0
@@ -200,3 +201,39 @@ int main() {
     b. int i,*ip=0;//int,int类型指针但是是个空指针
     c. int *ip，ip2; // int指针, int
     
+# 2.26
+    const 对象必须初始化
+    如果利用一个对象去初始化另外一个对象，则他们是不是const对象都无关紧要.
+    如果想在多个文件之间共享const对象，必须在变量的定义之前添加extern关键字.
+    a. const int buf;//  uninitialized const 
+    b.int cnt=0; // √
+    c.const int sz=cnt;// √
+    d.++cnt;++sz; // √ X const 对象不能改变  increment of read-only variable 'sz'
+    
+# 2.27
+    所谓指向常量的指针或引用 不过是指针或引用 自以为是罢了，他们觉得自己指向了常量，所以自觉的不去改变所指对象的值.
+    a.int i=-1,&r=0; //第二个初始化不合法,等号右边应该是一个int的对象 而不是字面值
+    b. int *const p2 = &i2;//合法，前提条件 int i2=10;定义了一个常量int类型指针 p2将一直指向i2
+    c. const int i=-1,&r=0;//合法，初始化常量引用时允许用任意表达式作为初始值 只要改表达式的结果能转化为引用的类型即可,
+       尤其 允许为一个常量引用绑定非常量的对象 字面值 甚至是一个表达式.
+    d. const int *const p3=&i2;// 合法 p3是一个指向常量对象的常量指针
+    e.const int *p1=&i2; //合法 可以指向int型常量 也可以指向int型非常量 ，但const int类型的对象只能用const int 指针来指
+    f.const int &const r2;// int const&表示此引用所代表的int类型变量无法使用此引用修改.
+                            const int&表示此引用所代表的是const int类型变量,同样也无法用此引用修改. 这里要初始化.
+                            不合法
+    g.const int i2=i,&r=i; // 合法 一个常量 ；一个常量引用
+
+# 2.28
+    a. int i,*const cp;//  X 常量指针必须初始化
+    b. int *p1,*const p2; // 错，同上
+    c.const int ic,&r=ic;// ic未初始化, r为常量引用
+    d.const int *const p3; // 指向常量int型对象的常量指针 常量指针必须初始化 *const 就是const指针
+    e.const int *p;//指针指向const int类型
+    
+# 2.29
+    a i=ic; //对
+    b.p1=p3; //错 不能将普通指针指向const int 所指的对象
+    c.p1=&ic;//错 同上
+    d.p3=&ic;// 对可以用指向const int类型对象的const指针指向const int对象 
+    e.p2=p1; // 对，可以将常量指针指向普通指针所指的对象
+    f.ic=*p3;  // ic is read-only,不能修改 const int
