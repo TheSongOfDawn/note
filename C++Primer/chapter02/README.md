@@ -237,3 +237,16 @@ int main() {
     d.p3=&ic;// 对可以用指向const int类型对象的const指针指向const int对象 
     e.p2=p1; // 对，可以将常量指针指向普通指针所指的对象
     f.ic=*p3;  // ic is read-only,不能修改 const int
+    
+# 2.30
+    顶层const 表示指针本身是一个常量
+    底层const 表示指针所指对象是一个常量
+     用于声明引用的const都是底层const
+    a.const int v2=0; //顶层const
+    b.int v1=v2;//底层const
+    c.int *p1=&v1,&r1=v1;//底层const X2
+    d.const int * p2=&v2,*const p3=&i,&r2=v2;//底层const  顶层const 底层const
+    
+# 2.31
+
+    
