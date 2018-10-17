@@ -248,5 +248,36 @@ int main() {
     d.const int * p2=&v2,*const p3=&i,&r2=v2;//底层const  顶层const 底层const
     
 # 2.31
-
+    基于上诉练习 ，下面哪些语句是合法的。顶层 const和底层const在每个例子中有何体现.
+    r1=v2;  //合法
+    p1=p2;p2=p1;//p1=p2; 不合法 p2=p1;合法
+    p1=p3;p2=p3;//p1=p3;不合法  p2=p3 合法
     
+# 2.32
+    一般来说 如果你认定变量是一个常量表达式，那就把它声明成constexpr类型
+    constexpr int mf=20
+    int null=0,*p=null;//非法 int null=0,*p=&null;
+    
+# 2.33
+# 2.34
+# 2.35
+    const int i=42; //
+    auto j=i; const auto &k=i; auto *p=&i; // int ;const int ;int;
+    const auto j2=i,&k2=i;// const int ;常量int 引用
+    
+# 2.36
+    int a=3,b=4;//a=3;b=4;
+    decltype(a) c=a;//c=3;
+    decltype((b)) d=a;//d=3 ; d是a的引用
+    ++c;//C=4;
+    ++d;//d=4，a=4
+    
+# 2.37
+    #切记decltype((variable))[注意是双层括号]的结果永远是引用 而decltype(variable)结果只有
+    当 variable本身就是一个引用时才是引用。
+    
+    赋值时会产生引用的一类典型表达式 引用的类型就是左值的类型 也就是说 如果i是int ,则表达式i=x的类型是int&
+    int a=3,b=4;  // int int
+    decltype(a) c=a;//int int int 
+    decltype(a=b) d=a;// d是引用类型 a是 int 
+    //输出结果是 3 4 3 3 
