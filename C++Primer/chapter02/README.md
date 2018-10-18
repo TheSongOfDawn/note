@@ -279,5 +279,54 @@ int main() {
     赋值时会产生引用的一类典型表达式 引用的类型就是左值的类型 也就是说 如果i是int ,则表达式i=x的类型是int&
     int a=3,b=4;  // int int
     decltype(a) c=a;//int int int 
-    decltype(a=b) d=a;// d是引用类型 a是 int 
-    //输出结果是 3 4 3 3 
+    decltype(a=b) d=a;// d是引用类型 a是 int 编辑器会分析表达式并得到它类型 但不实际计算表达式的值 
+    //输出结果是 3 4 3 3  
+    
+# 2.38
+    decltype在处理顶层const和引用的方式与auto有些许不同，如果decltype使用的表达式是一个变量，则decltype返回该变量的类型(包括顶层const和引用在内)。
+    const int ci = 42, &cj = ci;
+ 
+    decltype(ci) x = 0;   // x 类型为const int
+    auto z = ci;          // z 类型为int
+ 
+    decltype(cj) y = x;   // y 类型为const int&
+    auto h = cj;          // h 类型为int
+
+           decltype还有一些值得注意的地方，我们先来看看下面这段代码：
+
+    int i = 42, *p = &i, &r = i;
+ 
+    decltype(i) x1 = 0;       //因为 i 为 int ,所以 x1 为int
+    auto x2 = i;              //因为 i 为 int ,所以 x2 为int
+ 
+    decltype(r) y1 = i;       //因为 r 为 int& ,所以 y1 为int&
+    auto y2 = r;              //因为 r 为 int& ,但auto会忽略引用，所以 y2 为int
+ 
+    decltype(r + 0) z1 = 0;   //因为 r + 0 为 int ,所以 z1 为int,
+    auto z2 = r + 0;          //因为 r + 0 为 int ,所以 z2 为int,
+ 
+    decltype(*p) h1 = i;      //这里 h1 是int&， 原因后面讲
+    auto h2 = *p;             // h2 为 int.
+
+     如果表达式的内容是解引用操作，则decltype将得到引用类型。正如我们所熟悉的那样，解引用指针可以得到指针所指对象，而且还可以给这个对象赋值。因此decltype(*p)的结果类型就是int&.
+    decltype和auto还有一处重要的区别是，decltype的结果类型与表达形式密切相关。有一种情况需要特别注意：对于decltype 所用表达式来说，如果变量名加上一对括号，则得到的类型与不加上括号的时候可能不同。如果decltype使用的是一个不加括号的变量，那么得到的结果就是这个变量的类型。但是如果给这个变量加上一个或多层括号，那么编译器会把这个变量当作一个表达式看待，变量是一个可以作为左值的特殊表达式，所以这样的decltype就会返回引用类型：
+
+# 2.39
+    
+    struct Foo {/*此处为空*/} // 注意 没有分号
+    int main()
+    {
+        return 0;
+    }
+    // expected ';' after struct definition
+    
+# 2.40 
+    struct Sales_data
+    {
+    public:
+        //get and set methods
+    private:
+        ::string bookNo;
+        unsigned units_sold = 0;
+        double revenue = 0.0;
+    };
