@@ -330,3 +330,81 @@ int main() {
         unsigned units_sold = 0;
         double revenue = 0.0;
     };
+    # 不要在类的定义后面加上分号
+    
+# 2.41 
+```
+#include <iostream>
+#include <vector>
+#include <map>
+#include <iterator>
+#include <stdlib.h>
+#include <conio.h>
+using namespace std;
+
+struct Sales_data
+{
+    public:
+    	Sales_data();
+        void add_Sales_data(Sales_data& s); //读取两个ISBN相同的Sales_item对象 输出他们的和
+		void add_Sales_datas(vector<Sales_data>& data);//读取多个具有相同ISBN的记录 输出所有记录的和 
+        static void print_every_ISBN_datas(vector<Sales_data>& data);
+		string get_bookNo(){return bookNo;}
+		double get_revenue(){return revenue;}
+    private:
+        ::string bookNo;
+        unsigned units_sold ;//这里若赋值的话 会出现警告 	[Warning] non-static data member initializers only available with -std=c++11 or -std=gnu++11
+        double revenue ;
+};
+
+void Sales_data::add_Sales_data(Sales_data& s)
+{
+	if(this->bookNo==s.bookNo)// this 指针就yong -> 结构体就用 .  
+	{
+		cout<<"ISBN\t"<<this->bookNo<<"revenue\t"<<this->revenue+s.revenue<<endl;
+	}
+	else
+	{
+		cout<<"two Sales_data's bookNo is not equal!"<<endl; 
+	}
+}
+
+void Sales_data::add_Sales_datas(vector<Sales_data>& data)
+{
+	double total=this->revenue+0.0;
+	for(vector<Sales_data>::iterator it=data.begin();it!=data.end();it++)
+	{
+		 if(this->bookNo==(*it).bookNo)
+		{
+			total+=(*it).revenue;
+		}
+		else
+		{
+			continue;
+		}
+	}
+	cout<<"ISBN\t"<<this->bookNo<<"total\t"<<total<<endl;
+}
+void print_every_ISBN_datas(vector<Sales_data>& data)
+{
+	map<string,int> my_map;
+	for(vector<Sales_data>::iterator it=data.begin();it!=data.end();it++)
+	{
+		my_map[(*it).get_bookNo()]+=(*it).get_revenue();
+	}
+	for(map<string,int>::iterator it=my_map.begin();it!=my_map.end();it++)
+	{
+		cout<<"ISBN\t"<<it->first<<"revenue\t"<<it->second<<endl;
+	}
+}
+int main()
+{
+    return 0;
+}
+```
+# 2.42
+    头文件一旦改变，相关的源文件必须重新编译以获取更新过的声明
+    头文件保护符
+    预处理变量有两种状态 已定义和未定义
+    #define 把一个名字设定为预处理变量 另外两个指令分别检查某个指令的预处理变量是否已经定义
+    
