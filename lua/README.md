@@ -23,6 +23,9 @@
 
 ### table
 ```
+    第一，所有元素之间，总是用逗号 "，" 隔开；
+　　第二，所有索引值都需要用 "["和"]" 括起来；如果是字符串，还可以去掉引号和中括号； 即如果没有[]括起，则认为是字符串索引
+　　第三，如果不写索引，则索引就会被认为是数字，并按顺序自动从 1往后编；
     -- 初始化表
     mytable = {}
 
@@ -32,6 +35,15 @@
     -- 移除引用
     mytable = nil
     -- lua 垃圾回收会释放内存
+    tt = {"hello" ,33}
+    value = 4
+    tab = {[tt] = "table",key = value, ["flag" ] = nil, 11}
+    print(tab[tt])
+    print(tab.key)
+    print(tab[1 ])//以上写法都是对的
+    
+    look = {[www] = "ok"}这样是不对的，www没有赋值，所以默认为nil因此出错table index is nil
+    
 ```
 ### String
 ```
