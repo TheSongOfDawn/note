@@ -76,7 +76,7 @@ void function1()
 	cout<<sTemp<<endl;
 }
 ```
-# 3.6
+## 3.6
     cctype中定义了一组标准库函数来处理字符相关特性的操作
     string对象的下表必须大于等于0而小鱼s.size() 使用超出范围的小标将引发不可预知的错误，
     使用下标访问空string也会引发不可预知的错误
@@ -93,4 +93,63 @@ void function1()
 	cout<<str1<<endl;
 }
 ```
-##
+## 3.7 
+    可以通过编译运行
+## 3.8 略
+## 3.9
+    string s;
+    cout<<s[0]<<endl;
+    不合法，string s,s并未初始化 会引发不可预知的错误
+## 3.10
+```
+#include <cctype>
+void function1()
+{
+	string str1="cin>>str1;";
+	
+	for(char c:str1)
+	{
+	    if(ispunct(c))
+	        continue;
+	    cout<<c;
+	}
+}
+
+```
+## 3.11
+    const string s ="Keep out!";
+    for(auto &c:s) 
+    //for语句合法 ,c的类型是const char* ,如果不对c进行修改 则可以通过编译
+    //如果对c进行修改 则会出现编译错误error: invalid conversion from ‘const char*’ to ‘char’ 
+
+# 3.3
+    vector是模板而非类型，由vector生成的类型必须包含vector中元素的类型 例如vector<int>
+    某些编译器可能仍需以老式的声明语句来处理元素为vector的vector对象 如 vector<vector> >
+## 3.12
+    a. vector<vector<int> > ivec; //right
+    b.vector<string> svec=ivec;//类型转化错误
+    c.vector<string> svec(10,"null"); //right
+    
+## 3.13 
+    a. vector<int> v1; // 0 个元素 
+    b.vector<int> v2(10); // 10个元素 每个元素都是0
+    c.vector<int> v3 (10,42);//10个元素 每个元素都是42
+    d.vector<int> v4{10}; //一个元素 值为10
+    e.vector<int> v5{10,42}; //两个元素 值为 10 42
+    f.vector<string> v6{10}; //v6有10个默认初始化的string
+    gvector<string> v7{10,"hi"};//有10 个值为 "hi"的元素
+
+    范围for语句内不应改变其所遍历序列的大小
+
+## 3.14 & 3.15
+    vector<string> v2;
+    string s;
+    while(cin>>s)
+    {
+        v2.push_back(s);
+    }
+# 3.3.3
+    要使用size_type 需要首先指定它是由哪种类型定义的 vector 对象的类型总是包含着元素的类型
+    exp:vector<int>::size_type;;vector::size_type
+    vector对象以及string的下标运算符可用于访问已存在的元素 而不能用于添加元素
+    只能对确已知存在的元素执行下表操作 编译器不会检查下标访问一个不存在的元素这种错误.
