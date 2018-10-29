@@ -1,6 +1,7 @@
 程序默认包含头文件 和相关声明
 #include <string>
 using std::string;
+
 # 3.1
     头文件不应包含using 声明
     ::string 意味着使用 命名空间 std的string
@@ -78,7 +79,7 @@ void function1()
 ```
 ## 3.6
     cctype中定义了一组标准库函数来处理字符相关特性的操作
-    string对象的下表必须大于等于0而小鱼s.size() 使用超出范围的小标将引发不可预知的错误，
+    string对象的下表必须大于等于0而小于s.size() 使用超出范围的小标将引发不可预知的错误，
     使用下标访问空string也会引发不可预知的错误
     
 ```
@@ -153,3 +154,31 @@ void function1()
     exp:vector<int>::size_type;;vector::size_type
     vector对象以及string的下标运算符可用于访问已存在的元素 而不能用于添加元素
     只能对确已知存在的元素执行下表操作 编译器不会检查下标访问一个不存在的元素这种错误.
+    
+# 3.16 略
+# 3.17 
+void function1()
+{
+    vector<string> s;
+    string str;
+    s.push_back("abcdEh");
+    s.push_back("GhijLK");
+    
+    for(vector<string>::iterator it=s.begin();it!=s.end();it++)
+    {
+        for(string::iterator strit=(*it).begin();strit!=(*it).end();strit++)
+        {
+            if(islower(*strit))
+                (*strit)-=32; //转大写是-= 小写是+=
+        }
+        cout<<*it<<endl;
+    }
+    
+}
+# 3.18 
+    不合法 ,改成 ivec.push_back(42);因为现在的ivec没有包含任何对象
+
+# 3.19
+    vector<int> v1(10,42); #√
+    vector<int> v2{42,42,42,42,42,42,...}#10个42
+    vector<int> v3={42,42,42,42,42,...} #10个42
