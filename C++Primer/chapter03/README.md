@@ -182,3 +182,71 @@ void function1()
     vector<int> v1(10,42); #√
     vector<int> v2{42,42,42,42,42,42,...}#10个42
     vector<int> v3={42,42,42,42,42,...} #10个42
+# 3.20
+```
+void function1()
+{
+	vector<int> v1;
+	int t;
+	while(cin>>t)
+	{
+		v1.push_back(t);
+	}
+	for(vector<int>::iterator it=v1.begin();it!=v1.end();it++)
+	{
+		int t=*it;
+		cout<<((it++)!=v1.end()?t+*it:t)<<endl;
+	}
+	vector<int>::reverse_iterator it2=v1.rbegin();
+	//reverse_iterator 不能与iterator直接相比较 
+	for(vector<int>::iterator it1=v1.begin();it1!=v1.end();it1++,it2++)
+	{
+		cout<<*it1+*it2<<endl;
+	}
+	 
+}
+```
+# 3.21
+    如果容器为空 则begin与end返回的是同一个迭代器，都是尾后迭代器
+    因为end返回的迭代器并不实际指示某个元素 所以不能对其进行递增或者解引用操作
+    但凡使用了迭代器的循环体 都不要向迭代器所属的容器添加元素
+    略
+# 3.22&3.23
+```
+void function1()
+{
+	vector<int> v1;
+	for(int i=0;i<10;i++)
+	{
+	 	v1.push_back(i);
+	}
+	for(vector<int>::iterator it=v1.begin();it!=v1.end();it++)
+	{
+		*it=(*it)*2;
+		cout<<*it<<endl;
+	}
+}
+```
+# 二分搜索
+```
+   //text必须是有序的
+   //begin end表示我们搜索的范围
+   auto beg=text.begin,end=text.end();
+   auto mid= text.begin()+(end-begin)/2;
+   //当还有元素尚未检查并且我们还没有找到sought的时候执行循环
+   while(mid!=end&&*mid!=sought)
+   {
+    if(sought<*mid)//要找的元素在前半部分
+        end=mid;    //调整搜索的范围忽略掉后半部分
+    else            //要找的元素在后半部分
+        beg= mid + 1;//在mid之后找
+    mid = beg+(end - beg) / 2;//新的中间点
+   }
+```
+# 3.24&3.25
+    vector<unsigned> scores(11,0);
+    unsigned grade;
+    while(cin>>grade){
+        vector<unsigned>::iterator it=scores.begin();
+        *(it+grade/10)++;
+    }
