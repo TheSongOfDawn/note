@@ -295,4 +295,9 @@ void function1()
 # 3.5.2
     大多数常见的安全问题都源于缓冲区溢出错误 当数组或者其他类似数据结构的下标
     越界并试图访问非法内存区域时 就会产生此类错误。
-    
+    数组下标从0开始
+# 3.30
+    constexpr size_t array_int=10;
+    int ia[array_int];
+    for(size_t i =0;i<array_int;i++)
+        ia[i]=i;
