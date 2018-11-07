@@ -301,3 +301,43 @@ void function1()
     int ia[array_int];
     for(size_t i =0;i<array_int;i++)
         ia[i]=i;
+# 3.31 3.32 
+# 3.33 不初始化 则数组内的数将未定义
+# 3.5.3
+    在大多数表达式中 使用数组类型的对象其实是使用一个指向该数组首元素的指针
+    一个指针如果指向了某种内置类型数组的尾元素的下一位置 则其具备与vector的end函数返回的与迭代器类似的功能
+     特别要注意 尾后指针不能执行解引用和递增操作。
+     内置的下表运算符所用的索引值不是无符号类型 这一点与vector和string不一样
+# 3.34
+    两个指针相减的结果是它们之间的距离 参与运算的两个指针必须是指向同一个数组中的元素
+    相减的结果的类型为ptrdiff_t的标准库类型 和size_t一样 因为差值可能为负值
+    所以ptrdiff_t是一种带符号类型。
+    p1+=p2-p1;//让p1指向p2所指向的位置
+        //如果两个指针指不是指向同一个数组中的元素 相加减则非法。
+# 3.35
+    int *pbeg=begin(arr),*pend=end(arr);
+    while(pbeg!=pend)
+    {
+        *pbeg=0;
+        ++pbeg;
+    }
+# 3.36
+```
+bool compare2Arr(int *a,int a_size,int*b,int b_size)
+{
+	int begin_a=0;
+	int end_a=a_size,end_b=	b_size;
+	if(a_size!=b_size)
+	{
+		return false; 
+	}
+	while(begin_a!=end_a)
+	{
+		if(*(a+begin_a)==*(b+begin_a)) 
+			begin_a++;
+		else
+			return false;
+	}
+	return true;
+}
+```
