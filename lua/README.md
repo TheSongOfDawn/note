@@ -96,3 +96,77 @@
     luabind::call_function<string>(m_luaState, functionNameString, Param0,Param1,...);
     
 ```
+### 遇到过的问题
+```
+
+Q:#INF00 
+A:未定义的 就插入不进去
+
+#关于lua命令行输出 
+ 如果lua输出有乱码 或者输出不正确的拼接字符串 改一下命令行试试
+windows下的命令行输出默认是936 gbk,然后要输出utf8则必须把属性改为65001
+
+#数据库
+ 插入有两种情况，成功与失败。成功了会返回影响的行数 失败了则会将cur置成null值
+   local cur, dbErrorMsg = con:execute(strQuery)
+    if cur == nil then
+        flag=true
+#迭代器
+泛型for在自己内部保存迭代器 实际上它保存三个值 迭代函数 状态常量 控制变量
+泛型for迭代器提供了集合的key/value对 语法格式如下:
+for k,v in pairs(t) do
+    print(k,v)
+end
+pairs: 迭代 table，可以遍历表中所有的 key 可以返回 nil
+ ipairs: 迭代数组，不能返回 nil,如果遇到 nil 则退出
+
+local tab= { 
+[1] = "a", 
+[3] = "b", 
+[4] = "c" 
+} 
+for i,v in pairs(tab) do        -- 输出 "a" ,"b", "c"  ,
+    print( tab[i] ) 
+end 
+
+for i,v in ipairs(tab) do    -- 输出 "a" ,k=2时断开 
+    print( tab[i] ) 
+end
+```
+
+### 打印table
+```
+function print_r ( t )  
+    local print_r_cache={}
+    local function sub_print_r(t,indent)
+        if (print_r_cache[tostring(t)]) then
+            print(indent.."*"..tostring(t))
+        else
+            print_r_cache[tostring(t)]=true
+            if (type(t)=="table") then
+                for pos,val in pairs(t) do
+                    if (type(val)=="table") then
+                        print(indent.."["..pos.."] => "..tostring(t).." {")
+                        sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
+                        print(indent..string.rep(" ",string.len(pos)+6).."}")
+                    elseif (type(val)=="string") then
+                        print(indent.."["..pos..'] => "'..val..'"')
+                    else
+                        print(indent.."["..pos.."] => "..tostring(val))
+                    end
+                end
+            else
+                print(indent..tostring(t))
+            end
+        end
+    end
+    if (type(t)=="table") then
+        print(tostring(t).." {")
+        sub_print_r(t,"  ")
+        print("}")
+    else
+        sub_print_r(t,"  ")
+    end
+    print()
+end
+```
