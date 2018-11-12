@@ -23,4 +23,10 @@ Redis支持数据的备份，即master-slave模式的数据备份。
 
 # 命令操作
     启动 redis 客户端，打开终端并输入命令 redis-cli。该命令会连接本地的 redis 服务。
-    
+    清空整个Redis服务器的数据(删除所有数据库的所有key)
+    redis 命令行中 flushall
+    显示当前数据库的key数量 dbsize  --默认是0数据库
+    切换到num号数据库 select num
+    删除当前数据库所有的key flushdb
+    判断是否存在某个key exists key
+    查看当前数据库下所有的key: keys *，keys后面可以跟匹配类型例如：keys a*显示所有以a开头的key
