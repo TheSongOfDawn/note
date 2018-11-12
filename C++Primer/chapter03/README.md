@@ -341,3 +341,22 @@ bool compare2Arr(int *a,int a_size,int*b,int b_size)
 	return true;
 }
 ```
+# 3.37
+```
+	const char ca[]={'h','e','l','l','o'};
+	const char *cp=ca;
+	while(*cp){
+		cout<<*cp<<endl;
+		cp++;
+	}
+    //h
+    //e
+    //l
+    //l
+    //o
+```
+# 3.36
+    数组中的指针只是指向数组中的某一个元素，如果将两个指针相加，就是把指向数组某一元素的地址相加
+    并没有什么意义
+# 3.37
+    

@@ -132,8 +132,13 @@ end
 for i,v in ipairs(tab) do    -- 输出 "a" ,k=2时断开 
     print( tab[i] ) 
 end
-```
 
+
+求table的长度
+取长度操作符 #
+table t 的长度被定义成一个整数下标 n 。 它满足 t[n] 不是 nil 而 t[n+1] 为 nil； 此外，如果 t[1] 为 nil ，n 就可能是零。
+
+```
 ### 打印table
 ```
 function print_r ( t )  
@@ -170,3 +175,9 @@ function print_r ( t )
     print()
 end
 ```
+
+#lua中区分大小写，而notepad++不区分大小写 
+#在写参数的时候要注意
+#求有序表的时候可以用# 或者table.getn
+ table中最好不要有nil值
+ 求无序表的时候 请 for k,v in pairs(table) do index=
