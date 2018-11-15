@@ -55,6 +55,107 @@
 ```
 ### 数据库访问
 ```
+####  环境对象
+    环境对象是由储存在 luasql 表中的各种数据库初始化函数创建的，这些函数的名称和它们对应的数据库名称是一样的。例如：
+    env = luasql.odbc()
+    这会使用ODBC驱动创建一个环境对象。JDBC驱动比较特殊，你还必须让它知道应该使用哪种内部驱动器，因此在创建环境对象时，你应该把驱动的类名作为参数传递给 luasql.jdbc  函数。例如：
+
+    env = luasql.jdbc("com.mysql.jdbc.Driver")
+
+方法
+
+    env:close()
+　　关闭环境对象。必须在与它相关的所有数据库连接都关闭以后才应该调用这个函数。
+　　返回值：关闭成功返回 true，关闭失败或者环境对象已经被关闭了返回 false。
+
+env:connect(sourcename[,username[,password]])
+　用指定的用户名(username)和密码(password)连接到数据源(sourcename)。
+　　sourcename 根据数据库驱动的不同而改变。有些只使用一个简单的数据库名称即可，例如 MySQL, PostgreSQL 和 SQLite；ODBC 驱动需要一个 DSN 名称；Oracle 驱动需要一个服务名称；JDBC 驱动则需要一个字符串，就像“jdbc:<database system>://<database name>”一样。
+　　另见: PostgreSQL 扩展 和 MySQL 扩展。
+　　返回值：一个连接对象。
+
+连接对象
+
+　　连接对象包含数据源连接的特殊属性，它是由 environment:connect 创建的。
+
+方法
+
+conn:close()
+　　关闭数据库连接。只有在所有的游标都关闭的情况下才有可能成功关闭连接。
+　　返回值：关闭成功返回 true，关闭失败或者连接已经关闭了返回 false。
+
+conn:commit()
+　　提交当前事务处理。此方法在不支持事务处理的数据库上不会正常工作。 　　
+    返回值：提交成功返回 true，提交失败或者数据库不支持事务处理则返回 false。
+conn:execute(statement) 
+　　执行给定的 SQL 语句
+　　返回值：一个游标对象，或者一个数字，指示有多少条记录受此语句的影响。
+
+conn:rollback()
+　　回滚当前事务处理。此方法在不支持事务处理的数据库上不会正常工作。 
+　　返回值：回滚成功返回 true，回滚失败或者数据库不支持事务处理则返回 false。
+conn:setautocommit(boolean) 
+　　打开或者关闭“自动提交事务处理”功能。这个方法在不支持事务处理的数据库上不会正常工作。
+在支持事务处理单不支持自动提交事务处理的数据库上，会根据数据库驱动的不同而有不同的结果。
+　　返回值：设置成功返回 true，设置失败或者数据库不支持事务处理则返回 false。
+
+游标对象
+
+　　游标对象包含从 SQL 语句执行结果提取数据的各种方法。它是由 connection:execute 创建的。
+
+方法　　
+
+cur:close()
+　　关闭游标对象。
+　　返回值：关闭成功返回 true，关闭失败或者游标对象已经关闭了返回 false。
+cur:fetch([table[,modestring]])
+　　获取 SQL 语句执行结果中的下一条记录结果。
+　　如果调用此方法时没有传递任何参数，结果会直接返回给方法的调用者。如果传递了 table 参数，结果会被复制到一个表（Lua 概念中的表）中并被返回。同时，你还可以指定一个 mode 参数，指示返回的表的所以方式。它有以下两个值：
+"n" 
+　　结果表以数字为索引标识符（默认）
+
+"a" 
+　　结果以字母为索引标识符
+数字索引标识符的位置由执行的 SQL 语句中 select 后面的字段顺序决定的；字母索引标识符则是根据字段的名称来定的。
+　　可选的 table 参数是用来储存下一条记录的。
+　　此方法不保证返回结果的类型，这要由你所使用的数据库驱动确定。目前来说，PostgreSQL 和 MySQL 驱动会把所有的结果都转换为字符串，而 ODBC 和 Oracle 驱动则会根据字段类型返回对应的 Lua 类型的值
+　　返回值：如上所述的数据结果，或者在没有任何记录结果时返回 nil。注意这并不是唯一返回 nil 的情况，当获取的结果有效时也可能返回 nil。
+
+cur:getcolnames()
+　　返回值: 一个由字段名称组成的表。
+cur:getcoltypes() 
+　　返回值：一个由字段类型组成的表。
+
+PostgreSQL 扩展
+
+　　除了上面所说的通用的方法特性外，PostgreSQL 驱动还额外提供以下特性：
+
+env:connect(sourcename[,username[,password[,hostname[,port]]]])
+　　PostgreSQL 驱动的这个方法还提供了另外两个可选的参数，指明了连接的主机名和端口号。当然，你也可以只用地一个参数就可以包含所有的连接信息，就像 PostgreSQL 手册中 PQconnectdb 函数的参数一样（例如，environment:connect("dbname=<name> user=<username>")）
+　　另见：环境对象。
+　　返回值：一个连接对象。
+
+cur:numrows()
+　　另见：游标对象
+　　返回值：SQL  查询结果的纪录条数。
+MySQL 扩展
+
+　　除了上面所说的通用的方法特性外，MySQL 驱动还额外提供以下特性：
+
+env:connect(sourcename[,username[,password[,hostname[,port]]]])
+　　MySQL 驱动的这个方法还提供了另外两个可选的参数，指明了连接的主机名和端口号。
+　　另见：环境对象。
+　　返回值：一个连接对象。
+
+Oracle 扩展
+
+　　除了上面所说的通用的方法特性外，Oracle 驱动还额外提供以下特性：
+
+cur:numrows()
+　　另见：游标对象
+　　返回值：SQL  查询结果的纪录条数。
+    
+    
     require "luasql.mysql"
 
     --创建环境对象
