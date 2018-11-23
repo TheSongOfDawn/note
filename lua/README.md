@@ -57,7 +57,7 @@
 ```
 luasql官方文档地址:http://realtimelogic.com/ba/doc/en/lua/luasql.html
 luasql源码:https://github.com/keplerproject/luasql
-####  环境对象
+环境对象
     环境对象是由储存在 luasql 表中的各种数据库初始化函数创建的，这些函数的名称和它们对应的数据库名称是一样的。例如：
     env = luasql.odbc()
     这会使用ODBC驱动创建一个环境对象。JDBC驱动比较特殊，你还必须让它知道应该使用哪种内部驱动器，因此在创建环境对象时，你应该把驱动的类名作为参数传递给 luasql.jdbc  函数。例如：
@@ -279,8 +279,8 @@ function print_r ( t )
 end
 ```
 
-#lua中区分大小写，而notepad++不区分大小写 
-#在写参数的时候要注意
-#求有序表的时候可以用# 或者table.getn
+# lua中区分大小写，而notepad++不区分大小写 
+# 在写参数的时候要注意
+# 求有序表的时候可以用# 或者table.getn
  table中最好不要有nil值
  求无序表的时候 请 for k,v in pairs(table) do index=
