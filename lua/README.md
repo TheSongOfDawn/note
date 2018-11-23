@@ -55,6 +55,8 @@
 ```
 ### 数据库访问
 ```
+luasql官方文档地址:http://realtimelogic.com/ba/doc/en/lua/luasql.html
+luasql源码:https://github.com/keplerproject/luasql
 ####  环境对象
     环境对象是由储存在 luasql 表中的各种数据库初始化函数创建的，这些函数的名称和它们对应的数据库名称是一样的。例如：
     env = luasql.odbc()
