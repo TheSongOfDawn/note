@@ -98,7 +98,7 @@ nyy	n 为数字。复制光标所在的向下 n 行，例如 20yy 则是复制 2
 
 #文件处理
 
-文件查找：find
+文件查找：find 路径 -name 要查找的文件/路径名
 
 文本搜索：grep
 
@@ -160,3 +160,88 @@ nyy	n 为数字。复制光标所在的向下 n 行，例如 20yy 则是复制 2
 版本控制：git
 
 设置别名：alias
+
+## 工作中用到的
+bg:将任务放在后台执行
+
+fg：将任务调到前台来使用 fg%进程id
+
+jobs:列出所有后台进程
+
+ps aux | grep xx: 查看某xx进程的状态
+
+top:可以实时动态地查看系统的整体运行情况，是一个综合了多方信息监测系统性能和运行信息的实用工具。通过top命令所提供的互动式界面，用热键可以管理。
+
+telnet: 用于登录远程主机，对远程主机进行管理，
+
+ping: 测试主机之剑网络的联通性.
+
+ssh: 是openssh套件中客户端连接工具，可以给予加密协议实现安全的远程登录服务器。
+
+less:用来浏览文字档案的内容，与more不同的是less允许用户向前或者向后浏览文件.
+用PageUp键向上翻页，用PageDown键向下翻页。要退出less程序，应按Q键。
+
+cat:连接文件并打印到标准输出设备上，经常用来显示文件的内容，
+
+tail:用于输入文件中的尾部内容。tail命令默认在屏幕上显示指定文件的末尾10行。如果给定的文件不止一个，则在显示的每个文件前面加一个文件名标题。如果没有指定文件或者文件名为“-”，则读取标准输入。
+ -f 显示文件最新追加的内容
+
+chmod:用来变更文件或目录的权限. chmod +x Xt* 给Xt*加上可执行权限
+
+kill:用来删除执行中的程序或工作。kill可将指定的信息送至程序。预设的信息为SIGTERM(15),可将指定程序终止。若仍无法终止该程序，可使用SIGKILL(9)信息尝试强制删除程序。
+
+cp:用来将一个或多个源文件或者目录复制到指定的目的文件或目录。它可以将单个源文件复制成一个指定文件名的具体的文件或一个已经存在的目录下。cp命令还支持同时复制多个文件，当一次复制多个文件时，目标文件参数必须是一个已经存在的目录，否则将出现错误。
+
+mv:用来对文件或目录重新命名，或者将文件从一个目录移到·另一个目录中。source表示源文件或目录，target表示目标文件或目录。如果将一个文件移到一个已经存在的目标文件中，则目标文件的内容将被覆盖。
+
+nohup:可以将程序以忽略挂起信号的方式运行起来，被运行的程序的输出信息将不会显示到终端。
+
+scp:用于在Linux下进行远程拷贝文件的命令,且传输是加密的.scp还非常不占资源，不会提高多少系统负荷.
+
+mkdir:用来创建目录。该命令创建由dirname命名的目录。如果在目录名的前面没有加任何路径名，则在当前目录下创建由dirname指定的目录；如果给出了一个已经存在的路径，将会在该目录下创建一个指定的目录。在创建目录时，应保证新建的目录与它所在目录下的文件没有重名。 
+
+rmdir:删除空目录。
+
+VIRT: 虚拟内存 进程“需要的”虚拟内存大小，包括进程使用的库、代码、数据等
+RES：resident memory usage 常驻内存.进程当前使用的内存大小，但不包括swap out
+
+shutdown -r time 重启 
+千万不要-h 这个是关了然后不会重启的
+
+cd /home/rzrk/redis/bin
+./redis-cli keys "*MINICOUNTER*" | xargs /home/rzrk/redis/bin/redis-cli del 删除柜台上的redis
+
+lsof -i | grep user 
+根据用户查看进程和端口号
+netstat -nap | grep pid 根据进程pid查端口
+netstat -nap | grep port_ 根据端口号port 查看进程
+netstat -nao | findstr XXX
+
+md5sum filename
+在当前工作目录下，验证filename 文件的md5值.
+
+find / -name httpd.conf　　#在根目录下查找文件httpd.conf，/表示在整个硬盘查找
+
+unzip filename.zip 解压zip
+zip -r perflog.zip perflog/ 压缩文件
+tar -xzvf filename.tar.gz 解压tar.gz
+make all makefile命令
+netstat -aon|findstr "49157" 查看端口号
+ip addr 查看本机ip mac 不一定有ipconfig 
+
+查看磁盘是否满了 df -hl 
+某文件夹的大小 du -h --max-depth=1 /home/rzrk/
+查看mysql配置 cat /etc/my.cnf
+help xcopy
+svn已经更新到最新了，但编译出来的东西却是低版本的 ？
+查看自己用到的脚本有没有加执行权限
+新创建的脚本是没有执行权限的
+chmod +x ./test.sh  #使脚本具有执行权限
+less xtcounterservice.log.2019-01-22 | grep -C 20 nil > lkcat.txt
+cp -Rf /home/user1/* /root/temp/
+将 /home/user1目录下的所有东西拷到/root/temp/下而不拷贝user1目录本身。
+即格式为：cp -Rf 原路径/ 目的路径/
+make zImage -j8  是指在编译指定文件时用多少个线程进行编译的意思
+WSL——Windows Subsystem for Linux是一个为在Windows 10上能够原生运行Linux二进制可执行文件（ELF格式）的兼容层。
+windows的东西在 /mnt文件夹里面
+svn up -r 版本号  //版本号不带r
