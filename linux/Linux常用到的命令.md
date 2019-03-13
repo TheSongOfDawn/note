@@ -81,7 +81,7 @@ nyy	n 为数字。复制光标所在的向下 n 行，例如 20yy 则是复制 2
 
 ## 编译器：gcc/g++
 1. 除此之外需要了解预处理->编译->汇编->链接等一系列流程。
-2.[详见](http://www.cnblogs.com/lidan/archive/2011/05/25/2239517.html)
+2. [详见](http://www.cnblogs.com/lidan/archive/2011/05/25/2239517.html)
 
 ## 调试工具：gdb [详见](https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/gdb.html)
 ```
@@ -99,9 +99,9 @@ nyy	n 为数字。复制光标所在的向下 n 行，例如 20yy 则是复制 2
 ldd a.out
 ```
 ## 二进制文件分析：objdump
-1.反汇编 需要理解汇编语言
-2.[详见](http://man.linuxde.net/objdump)
-3.ps:暂时工作中没有遇到
+1. 反汇编 需要理解汇编语言
+2. [详见](http://man.linuxde.net/objdump)
+3. ps:暂时工作中没有遇到
 
 ## ELF文件格式分析：readelf
 
