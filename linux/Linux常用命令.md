@@ -224,7 +224,7 @@ cut [选项] 文件
     # -d后接界定符
     cut -f 2 -d ',' new
 ```
-##按列拼接文本：paste
+## 按列拼接文本：paste
 ```
 paste [选项] file1 file2
 
@@ -241,7 +241,7 @@ paste [选项] file1 file2
     # 按照-d之后给出的界定符拼接
     paste test1 test2 -d ","
 ```
-##统计行和字符：wc
+## 统计行和字符：wc
 ```
 wc [选项] 文件
 输出 | wc [选项]
@@ -255,7 +255,7 @@ wc [选项] 文件
     # -l统计行数(line)，-w统计单词数(word)，-c统计字符数(character)
     wc -l test
 ```
-##文本替换：sed [详见](https://coolshell.cn/articles/9104.html)
+## 文本替换：sed [详见](https://coolshell.cn/articles/9104.html)
 ```
 处理大文件用.
 sed常用于一整行的处理。如果有一个100万行的文件，要在第100行加某些文字，此时由于文件太大，不适合用vim处理。因此使用sed是个很好的选择
@@ -293,7 +293,7 @@ nl /etc/passwd | sed '2s/daemon/root/g' #将第二行的daemon替换成root
 ifconfig | grep 'inet addr' | sed 's/^.*addr://g' #将所有开头的“inet addr:”删除
 ```
 
-##数据流处理：awk [详见](https://coolshell.cn/articles/9070.html)
+## 数据流处理：awk [详见](https://coolshell.cn/articles/9070.html)
 ```
 相比于sed常用于一整行的处理，awk则比较倾向于将一行分成数个“字段”来处理。因此，相当适合小型的数据处理
 
@@ -324,16 +324,107 @@ awk '{total=$1+$2+$3;printf "%10d %10d %10d %10.2f\n",$1,$2,$3,total}' test
 
 # 性能分析
 
-进程查询：ps
+## 进程查询：ps
+```
+#1.列出仅与自身环境有关的进程，最上层的父进程是允许该ps命令的bash而没有扩展到init进程中去
+ps -l
 
-进程监控：top
+#2.列出系统所有进程的信息
+ps aux
+ps -ef    #aux会截断COMMAND列，-ef不会。aux是BSD风格，-ef是System V风格
+ps axjf   #以"进程树"的方式显示所有进程
+ps -lA    #输出格式同ps -l
+```
+1. F:进程标志，说明进程的权限
+    *  4：root权限
+    *  1：仅能fork而不能exec
+    *  0：既非4也非1
+2. S:进程的状态
+    * R(running)：正在运行
+    * S(Sleep)：可被唤醒的睡眠
+    * D：不可被唤醒的睡眠（通常可能在等待I/O）
+    * T：停止，可能是在后台暂停
+    * Z(Zombie)：僵尸进程
+3. C:CPU使用率
+4. PRI/NI：Priority/Nice的缩写，CPU优先级(越小越高)
+5. ADDR/SZ/WCHAN：内存相关，ADDR指出进程在内存的哪个部分，running进程一般显示'-'。SZ为进程使用的内存。WCHAN表示进程当前是否运行中'-'，当进程睡眠时，指出进程等待的事件
+6. TTY：进程运行的终端机 与终端机无关则显示'?'。tty1~tty6是本机的登陆者程序，pts/0等表示由网络连接进主机的进程
+7. TIME：进程用掉的CPU时间
+8. USER：进程所属用户
+9. %CPU/%MEM：进程消耗的CPU百分比和内存百分比
+10. VSZ：进程用掉的虚拟内存(KB)
+11. RSS：进程占用的固定内存(KB)
+12. STAT：进程目前的状态，与ps -l结果中的S等同
+13. START：进程启动的时间
+14. TIME：进程实际使用的CPU运行时间
+...
+## 进程监控：top
+```
+top [选项]
 
-打开文件查询：lsof
+选项：
+    -d：跟秒数指定更新间隔
+    -n：与-b搭配，指定需要进行几次top输出，重定向时常用
+    -p：指定PID，监控特定进程
 
-内存使用量：free
+top模式下的命令：
 
-监控性能指标：sar
+?：显示可用的命令
+P：以CPU使用情况排序
+M：以内存使用情况排序
+N：以PID排序
+q：退出
+1：多核情况下切换CPU
+%Cpu(s)后面的“wa”表示I/O wait，过高说明长时间等待I/O，I/O存在瓶颈
+```
+## 打开文件查询：lsof
+```
+lsof [选项]
 
+选项：
+    -i：-i:端口号查看端口被占用的情况
+    -u：后跟用户名查看具体用户打开的文件
+    -p：后跟PID查看指定进程打开的文件
+    +d：后跟目录查看指定目录下被进程打开的文件，"+D"递归
+```
+## 内存使用量：free
+```
+free [选项]
+
+选项：
+    -b|-k|-m|-g：单位
+    -t：列出物理内存与swap的汇总情况    
+
+buffers：主要缓存dentry和inode等元数据
+cached：主要缓存文件内容，即page cache
+- buffers/cache：实际使用的内存。used-buffers-cached
++ buffers/cache：可用内存。free+buffers+cached（在内存紧张时，buffers和cached可以回收）
+```
+## 监控性能指标：sar
+```
+监控CPU负载
+# 加上-q可以查看运行队列中进程数，系统上进程大小，平均负载等
+# 这里"1"表示采样时间间隔是1秒，这里"2"表示采样次数为2
+
+sar -q 1 2
+监控CPU使用率
+# 可以显示CPU使用情况
+# 参数意义同上
+
+sar -u 1 2
+监控内存
+
+查询内存
+# 可以显示内存使用情况
+# 参数意义同上 
+
+sar -r 1 2
+页面交换查询
+# 可以查看是否发生大量页面交换，吞吐率大幅下降时可用
+# 参数意义同上
+
+sar -W 1 2
+```
 #网络工具
 
 网卡配置：ifconfig
