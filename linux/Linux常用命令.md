@@ -427,37 +427,105 @@ sar -W 1 2
 ```
 #网络工具
 
-网卡配置：ifconfig
+### 网卡配置：ifconfig[链路层]
+```
+# 可以显示已激活的网络设备信息
+ifconfig
 
-查看当前网络连接：netstat
+# 前一个参数为具体网卡，后一个为开关信息
+# up为打开，down为关闭
+ifconfig eth0 up
 
-查看路由表：route
+# 前一个参数为具体网卡，后一个为配置的IP地址
+ifconfig eth0 192.168.1.1
 
-检查网络连通性：ping
+前一个参数为具体网卡，后面为MTU的大小
+# 设置链路层MTU值，通常为1500
+ifconfig eth0 mtu 1500
 
-转发路径：traceroute
+# 开启arp如下，若关闭则-arp
+ifconfig eth0 arp
+```
+### 查看当前网络连接：netstat
+```
+netstat [选项]
 
-网络Debug分析：nc
+选项：
+    -a：将所有的连接、监听、Socket数据都列出来（如，默认情况下，不会列出监听状态的连接）
+    -t：列出tcp连接
+    -u：列出udp连接
+    -n：将连接的进程服务名称以端口号显示（如下图中Local Address会换成10.0.2.15:22）
+    -l：列出处于监听状态的连接
+    -p：添加一列，显示网络服务进程的PID（需要root权限）
+    -i：显示网络接口列表，可以配合ifconfig一起分析
+    -s：打印网络统计数据，包括某个协议下的收发包数量
 
-命令行抓包：tcpdump
+Active Internet connections（w/o servers）：网络相关的连接
+Recv-Q：接收队列(已接收还未递交给应用)
+Send-Q：发送队列(接收方未确认的数据)
+Local Address：本地IP(主机):端口(服务名)
+Foreign Address：远端IP:端口
+Recv-Q和Send-Q通常应该为0，如果长时间不为0可能存在问题
 
-域名解析工具：dig
+Active UNIX domain sockets（w/o servers）：本地相关的套接字
+RefCnt：连接到此socket的进程数
+Flags：连接标识
+Type：socket访问的类型
+Path：连接到此socket的相关程序的路径
+```
+## 查看路由表：route
 
-网络请求：curl
+## 检查网络连通性：ping
 
-#其他
-终止进程：kill
+## 转发路径：traceroute
 
-修改文件权限：chmod
+## 网络Debug分析：nc
 
-创建链接：ln
+## 命令行抓包：tcpdump
 
-显示文件尾：tail
+## 域名解析工具：dig
 
-版本控制：git
+## 网络请求：curl
 
-设置别名：alias
+# 其他
+## 终止进程：kill
+```
+杀死具体进程
+kill PID
+kill -9 PID
+```
+## 修改文件权限：chmod
+```
+# 可以对三种使用者设置权限，u(user, owner)，g(group)，o(other)
+# 文件可以有三种权限，r(read)，w(write)，x(execute)
+# 这里u+r表示文件所有者在原有基础上增加文件读取权限
+# 这里777分别对应，u=7，g=7，o=7，具体数字含义自行google
 
+chmod u+r file
+chmod 777 file
+```
+## 创建链接：ln
+```
+# 硬连接 文件inode中链接数会增加，只有链接数减为0时文件才真正被删除
+ln file1 file2
+
+# -s(symbol)为符号链接，仅仅是引用路径
+# 相比于硬链接最大特点是可以跨文件系统
+# 类似于Windows创建快捷方式，实际文件删除则链接失效
+ln -s file1 file2
+```
+## 显示文件尾：tail
+```
+# -f参数可以不立即回传结束信号，当文件有新写入数据时会及时更新
+# 查看日志时常用
+tail -f  -n test
+```
+## 版本控制：git[详见](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/)
+## 设置别名：alias
+```
+# 常用命令添加别名 ".bashrc"文件中配置常用命令别名，生效后在命令行只需要使用别名即可代替原先很长的命令
+alias rm='rm -i'
+```
 ## 工作中用到的
 ```
 bg:将任务放在后台执行
@@ -543,4 +611,5 @@ make zImage -j8  是指在编译指定文件时用多少个线程进行编译的
 WSL——Windows Subsystem for Linux是一个为在Windows 10上能够原生运行Linux二进制可执行文件（ELF格式）的兼容层。
 windows的东西在 /mnt文件夹里面
 svn up -r 版本号  //版本号不带r
+tar -xvf file.tar //解压 tar包
 ```
